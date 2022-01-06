@@ -18,8 +18,10 @@ def hangman():
         no_of_letters = 2
     elif(length_of_text < 9):
         no_of_letters = 3
-    else:
+    elif(length_of_text < 11):
         no_of_letters = 4
+    else:
+        no_of_letters = 5
 
     values = np.random.randint(0, length_of_text, size = (no_of_letters))
     duplicate_text = j_text
@@ -29,42 +31,43 @@ def hangman():
              duplicate_text = duplicate_text.replace(duplicate_text[i], '_',1)
          else:
              already_list.append(duplicate_text[i])
-    print(values)
+    # print(values)
 
     run_hangman_game(duplicate_text, j_text, already_list, values)
     
 def run_hangman_game(converted_text, original_text, ava_words, positions):
-    print(original_text, converted_text)
-    print(ava_words)
+    print(converted_text)
+    # print(ava_words)
     life_count = 5
     # list of total number of words in the text
     words_list = split(original_text)
-    print(words_list)
+    # print(words_list)
     # remove the already available word from the list
     split_words = split_list(words_list, positions)
-    print(split_words)
-    while (life_count != 0) or (converted_text == original_text):
+    # print(split_words)
+    while True:
 
         if (life_count == 0):
+            print('OOPS... You lost The Game')
+            print('The correct answer was : ', original_text)
             break
         elif (converted_text == original_text):
+            print('Hurray... You Won The Game..Congrulation')
             break
         else:
             inp = input('guss a word')
             if inp in split_words:
-
+                # converting all presence of the typed words from _ to word
                 for i in range(len(words_list)):
-                    # to converte the typed words from _ to word
+
                     if inp == words_list[i]:
                         converted_text = converted_text[:i] + inp + converted_text[i+1:]
+                split_words.remove(inp)
                 print(converted_text)
             else:
                 life_count -= 1
                 print('lost a life, remaining lifes are ', life_count)
-    if life_count == 0:
-        print('lost')
-    else:
-        print('win')
+                print(converted_text)
 
 
 
